@@ -1,9 +1,6 @@
 $(document).ready(function() {
-
-})
-// DOM Elements
-var timeDisplayEl = $('#currentDay');
-var timeBlocksEl = $('#timeBlocks');
+  displayDate();
+});
 
 // Time Blocks Variables
 var timeBlocksArray = [
@@ -20,7 +17,7 @@ var timeBlocksArray = [
 
 // Display Date Function
 function displayDate() {
-    timeDisplayEl.text(moment().format('dddd, MMMM Do YYYY'));
+  $('#currentDay').text(moment().format('dddd, MMMM Do YYYY'));
 }
 
 // Display Time Blocks Function
@@ -28,17 +25,30 @@ function displayTimeBlocks() {
   for (var i=0; i<timeBlocksArray.length; i++) {
     var hourNow = parseInt(moment().format("HH"));
     var blockHour = timeBlocksArray[i].time;
-    var timeClass = "";
+
+    // Creating timeblocks
+    var timeDisplay = timeBlocksArray[i].display;
+    var eventText = timeBlocksArray[i].event;
+
+    var table = $('<div>').attr('class','row');
+    var timeCol = $('<div>').text(timeDisplay).attr('class', 'col-md-2');
+    var eventCol = $('<textarea>').text(eventText).attr('class','col-md-9');
+    var buttonImg = $('<i class="far fa-save fa-lg"></i>');
+    var saveButtonCol = $('<button>').attr('class','col-md-1');
 
     // Assigns class based on what time it is
-    if(hourNow > blockHour) {
-        timeClass = "past";
+    if (hourNow > blockHour) {
+      eventCol.attr('class','past');
     } else if (hourNow === blockHour) {
-        timeClass = "present";
+      eventCol.attr('class','present');
     } else {
-        timeClass = "future";
+      eventCol.attr('class','future');
     };
 
+    saveButtonCol.append(buttonImg);
+    table.append(timeCol, eventCol, saveButtonCol);
+
+    $(".container").append(table);
   }
 }       
 
@@ -48,3 +58,5 @@ function displayTimeBlocks() {
 
 // Start Time on screen load
 setInterval(displayDate,1000);
+
+displayTimeBlocks();
