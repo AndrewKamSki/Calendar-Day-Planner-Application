@@ -1,7 +1,7 @@
 // Display Date Function
 function displayDate() {
   $('#currentDay').text(moment().format("dddd, MMMM Do YYYY"));
-  return(moment().format("dddd, MMMM Do YYYY"));
+  //return(moment().format("dddd, MMMM Do YYYY"));
 }
 
   // Time Blocks Variables
@@ -16,10 +16,11 @@ function displayDate() {
     {display: "4PM", time:16},
     {display: "5PM", time:17}];
 
-  var events = ["","","","","","","","","",]
+  var events = ["","","","","","","","",""]
 
 // Display Time Blocks Function
 function displayTimeBlocks() {
+  
   for (var i=0; i<timeBlocksArray.length; i++) {
     var hourNow = parseInt(moment().format("HH"));
     var blockHour = timeBlocksArray[i].time;
@@ -61,25 +62,27 @@ function loadEvents() {
       events = savedEvents;
   }
   displayTimeBlocks();
+  
 }
 
-$(document).ready(function() {
+function init() {
   loadEvents();
   displayDate();
-
-  $('.savBtn').on('click', function(event) {
+  $('.saveBtn').on('click', function(event) {
     event.preventDefault();
-    var test = event.target;
-    console.log(test)
-    var fullIndex = $(this).attr('id');
+    var fullIndex = this.id;
     var numberIndex = fullIndex.replace('btn_','');
     var indexInt = parseInt(numberIndex);
     var textId = 'text_' + numberIndex;
+    console.log(textId)
     var savedText = $(textId).val();
-
+    console.log(savedText)
     events.splice(indexInt,1,savedText);
+    console.log(events)
     storeEvents();
   })
 
   setInterval(displayDate,1000);
-})
+}
+
+init()
