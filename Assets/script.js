@@ -1,7 +1,6 @@
 // Display Date Function
 function displayDate() {
   $('#currentDay').text(moment().format("dddd, MMMM Do YYYY"));
-  //return(moment().format("dddd, MMMM Do YYYY"));
 }
 
   // Time Blocks Variables
@@ -16,8 +15,7 @@ function displayDate() {
     {display: "4PM", time:16},
     {display: "5PM", time:17}];
 
-  var events = ["","","","","","","","",""]
-
+  var events = ["","","","","","","","",""];
 // Display Time Blocks Function
 function displayTimeBlocks() {
   
@@ -58,6 +56,7 @@ function storeEvents() {
 // Function to load events
 function loadEvents() {
   var savedEvents = JSON.parse(localStorage.getItem("events"));
+  console.log(savedEvents)
   if (savedEvents !== null) {
       events = savedEvents;
   }
@@ -65,6 +64,7 @@ function loadEvents() {
   
 }
 
+// Initializes functions and starts the save button
 function init() {
   loadEvents();
   displayDate();
@@ -73,12 +73,9 @@ function init() {
     var fullIndex = this.id;
     var numberIndex = fullIndex.replace('btn_','');
     var indexInt = parseInt(numberIndex);
-    var textId = 'text_' + numberIndex;
-    console.log(textId)
-    var savedText = $(textId).val();
-    console.log(savedText)
-    events.splice(indexInt,1,savedText);
-    console.log(events)
+    var spliceIndex = indexInt-9;
+    var savedText = $(`#text_${indexInt}`).val();
+    events.splice(spliceIndex,1,savedText);
     storeEvents();
   })
 
